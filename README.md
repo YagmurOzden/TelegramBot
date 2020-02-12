@@ -1,2 +1,2 @@
 # TelegramBot
-Telegram Bot For School for cafeteria
+Telegram Bot For School cafeteria
