@@ -1,26 +1,31 @@
 import datetime
 import requests
 from bs4 import BeautifulSoup
+import csv
+import sys
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 url="http://menu.yalova.edu.tr/"
-
 r = requests.get(url)
 
 soup=BeautifulSoup(r.content,"html.parser")
 
 gelen_veri =soup.find_all("ul", {"class": "home-table"})
+csvFile=open('test.csv','w+')
+
 for y in gelen_veri:
     yemek_bas=y.find_all("li",{"data-toggle":"tooltip"})
     src=y.find_all("li")
 
-    src=src[0].text
-    src = src.replace("\r", "")
-    src = src.replace("\n", "")
-    print (src)
+    writer = csv.writer(csvFile)
+    writer.writerow(('', 'Yemek listesi'))
+    for i in range(0,120,6):
+        liste = src[i].text.replace("\r", "").replace("\n", "")
+        writer.writerow((liste[0:25],liste))
+    csvFile.close()
 
-    tarih=src[0:30]
 
-    date = datetime.date.today()
 
-    date1 = datetime.datetime.strptime("2020-02-08", "%Y-%m-%d").strftime("%d %m %Y")
+
